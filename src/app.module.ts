@@ -6,12 +6,12 @@ import { JogadoresModule } from './jogadores/jogadores.module';
   imports: [
     JogadoresModule,
     MongooseModule.forRoot(
-      'mongodb+srv://admin:EReapH1DEeOwnRYQ@cluster0.bkfxfuz.mongodb.net/smartranking?retryWrites=true&w=majority',
+      'mongodb+srv://admin:edu08062004@cluster0.bkfxfuz.mongodb.net/smartranking?retryWrites=true&w=majority',
       {
         useNewUrlParser: true,
-        useCreateIndex: true,
-        useUnifiedTipology: true,
-        useFindAndModify: false,
+        // useCreateIndex: true,
+        // useUnifiedTipology: true,
+        // useFindAndModify: false,
       },
     ),
   ],
