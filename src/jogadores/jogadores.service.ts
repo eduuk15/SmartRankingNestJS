@@ -16,25 +16,17 @@ export class JogadoresService {
   ) {}
 
   async criarJogador(criarJogadorDto: CriarJogadorDto): Promise<Jogador> {
-    const { email, telefoneCelular } = criarJogadorDto;
+    const { email } = criarJogadorDto;
 
     const jogadorEncontradoEmail = await this.jogadorModel
       .findOne({ email })
       .exec();
-    // const jogadorEncontradoTelefone = await this.jogadorModel
-    //   .findOne({ telefoneCelular })
-    //   .exec();
 
     if (jogadorEncontradoEmail) {
       throw new BadRequestException(
         `Jogador com email ${email} já cadastrado!`,
       );
     }
-    // if (jogadorEncontradoTelefone) {
-    //   throw new BadRequestException(
-    //     `Jogador com telefone ${telefoneCelular} já cadastrado!`,
-    //   );
-    // }
 
     const jogadorCriado = new this.jogadorModel(criarJogadorDto);
     return await jogadorCriado.save();
