@@ -14,6 +14,7 @@ import { AtribuirDesafioPartidaDto } from './dtos/atribuir-desafio-partida.dto';
 import { AtualizarDesafioDto } from './dtos/atualizar-desafio.dto';
 import { CriarDesafioDto } from './dtos/criar-desafio.dto';
 import { Desafio } from './interfaces/desafio.interface';
+import { DesafioStatusValidacaoPipe } from './pipes/desafio-status-validation.pipe';
 
 @Controller('desafios')
 export class DesafiosController {
