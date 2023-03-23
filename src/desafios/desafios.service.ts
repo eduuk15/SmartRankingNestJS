@@ -85,6 +85,21 @@ export class DesafiosService {
       .exec();
   }
 
+  async consultarDesafioPeloId(_id: string): Promise<Desafio> {
+    const desafioEncontrado = await this.desafioModel
+      .findOne({ _id })
+      .populate('solicitante')
+      .populate('jogadores')
+      .populate('partida')
+      .exec();
+
+    if (!desafioEncontrado) {
+      throw new NotFoundException(`Desafio ${_id} não encontrado!`);
+    }
+
+    return desafioEncontrado;
+  }
+
   async consultarDesafiosDeUmJogador(_id: any): Promise<Array<Desafio>> {
     const jogadores = await this.jogadoresService.consultarTodosJogadores();
 

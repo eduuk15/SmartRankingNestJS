@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   Logger,
   Param,
   Post,
@@ -16,11 +17,30 @@ import { CriarDesafioDto } from './dtos/criar-desafio.dto';
 import { Desafio } from './interfaces/desafio.interface';
 import { DesafioStatusValidacaoPipe } from './pipes/desafio-status-validation.pipe';
 
-@Controller('desafios')
+@Controller('api/v1/desafios')
 export class DesafiosController {
   constructor(private readonly desafioService: DesafiosService) {}
 
   private readonly logger = new Logger(DesafiosController.name);
+
+  @Get()
+  async consultarDesafios(): Promise<Array<Desafio>> {
+    return await this.desafioService.consultarTodosDesafios();
+  }
+
+  @Get('/desafio/:idDesafio')
+  async consultarDesafioPeloId(
+    @Param('idDesafio') idDesafio: string,
+  ): Promise<Desafio> {
+    return await this.desafioService.consultarDesafioPeloId(idDesafio);
+  }
+
+  @Get('/:idJogador')
+  async consultarDesafiosDeUmJogador(
+    @Param('idJogador') idJogador: string,
+  ): Promise<Array<Desafio>> {
+    return await this.desafioService.consultarDesafiosDeUmJogador(idJogador);
+  }
 
   @Post()
   @UsePipes(ValidationPipe)
@@ -31,27 +51,27 @@ export class DesafiosController {
     return await this.desafioService.criarDesafio(criarDesafioDto);
   }
 
-  @Put('/:desafio')
+  @Put('/:idDesafio')
   async atualizarDesafio(
     @Body(DesafioStatusValidacaoPipe) atualizarDesafioDto: AtualizarDesafioDto,
-    @Param('desafio') desafio: string,
+    @Param('idDesafio') idDesafio: string,
   ): Promise<void> {
-    await this.desafioService.atualizarDesafio(desafio, atualizarDesafioDto);
+    await this.desafioService.atualizarDesafio(idDesafio, atualizarDesafioDto);
   }
 
-  @Post('/:desafio/partida')
+  @Post('/:idDesafio/partida')
   async atribuirDesafioPartida(
     @Body(ValidationPipe) atribuirDesafioPartidaDto: AtribuirDesafioPartidaDto,
-    @Param('desafio') desafio: string,
+    @Param('idDesafio') idDesafio: string,
   ): Promise<void> {
     return await this.desafioService.atribuirDesafioPartida(
-      desafio,
+      idDesafio,
       atribuirDesafioPartidaDto,
     );
   }
 
-  @Delete('/:_id')
-  async deletarDesafio(@Param('_id') _id: string): Promise<void> {
-    await this.desafioService.deletarDesafio(_id);
+  @Delete('/:idDesafio')
+  async deletarDesafio(@Param('idDesafio') idDesafio: string): Promise<void> {
+    await this.desafioService.deletarDesafio(idDesafio);
   }
 }
